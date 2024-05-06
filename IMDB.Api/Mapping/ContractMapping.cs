@@ -34,5 +34,16 @@ namespace IMDB.Api.Mapping
                 Items = movies.Select(MapToResponse)
             };
         }
+
+        public static Movie MapToMovie(this UpdateMovieRequest request, Guid id)
+        {
+            return new Movie
+            {
+                Id = id,
+                Title = request.Title,
+                YearOfRelease = request.YearOfRelease,
+                Genres = request.Genres.ToList()
+            };
+        }
     }
 }

@@ -42,5 +42,26 @@ namespace IMDB.Api.Controllers
             await movieRepository.CreateAsync(movie);
             return CreatedAtAction(nameof(Get), new { id = movie.Id }, movie);            
         }
+
+        [HttpPut(ApiEndpoints.Movies.Update)]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateMovieRequest request)
+        {
+            var movie = request.MapToMovie(id);
+            var updated = await movieRepository.UpdateAsync(movie);
+            if (!updated)
+                return NotFound();
+
+            var response = movie.MapToResponse();
+            return Ok(response);
+        }        
+        
+        [HttpDelete(ApiEndpoints.Movies.Delete)]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            var deleted = await movieRepository.DeleteByIdAsync(id);
+            if(!deleted)
+                return NotFound();
+            return Ok();
+        }
     }
 }
