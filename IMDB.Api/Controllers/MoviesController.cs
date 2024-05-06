@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace IMDB.Api.Controllers
 {
     [ApiController]
-    [Route("api")]
     public class MoviesController : ControllerBase
     {
         private readonly IMovieRepository movieRepository;
@@ -17,7 +16,7 @@ namespace IMDB.Api.Controllers
             this.movieRepository = movieRepository;
         }
 
-        [HttpPost("movies")]
+        [HttpPost(ApiEndpoints.Movies.Create)]
         public async Task<IActionResult> Create([FromBody]CreateMovieRequest request)
         {
             var movie = request.MapToMovie();
