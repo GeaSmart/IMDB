@@ -40,7 +40,7 @@ namespace IMDB.Api.Controllers
         {
             var movie = request.MapToMovie();
             await movieRepository.CreateAsync(movie);
-            return Created($"/api/movies/{movie.Id}", movie);
+            return CreatedAtAction(nameof(Get), new { id = movie.Id }, movie);            
         }
     }
 }
