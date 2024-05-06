@@ -6,6 +6,7 @@ namespace IMDB.Application.Repositories
     {
         Task<IEnumerable<Movie>> GetAllAsync();
         Task<Movie?> GetByIdAsync(Guid id);
+        Task<Movie?> GetBySlugAsync(string slug);
         Task<bool> CreateAsync(Movie movie);        
         Task<bool> UpdateAsync(Movie movie);
         Task<bool> DeleteByIdAsync(Guid id);

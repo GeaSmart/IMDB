@@ -15,6 +15,11 @@ namespace IMDB.Application.Repositories
             var movie = movies.SingleOrDefault(x => x.Id == id);
             return Task.FromResult(movie);
         }
+        public Task<Movie?> GetBySlugAsync(string slug)
+        {
+            var movie = movies.SingleOrDefault(x => x.Slug == slug);
+            return Task.FromResult(movie);
+        }
         public Task<bool> CreateAsync(Movie movie)
         {
             movies.Add(movie);

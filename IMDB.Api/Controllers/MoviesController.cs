@@ -24,9 +24,13 @@ namespace IMDB.Api.Controllers
         }
 
         [HttpGet(ApiEndpoints.Movies.Get)]
-        public async Task<IActionResult> Get([FromRoute] Guid id)
+        public async Task<IActionResult> Get([FromRoute] string idOrSlug)
         {
-            var movie = await movieRepository.GetByIdAsync(id);
+            //get by id or slug
+            var movie = Guid.TryParse(idOrSlug, out var id) ?
+                await movieRepository.GetByIdAsync(id) :
+                await movieRepository.GetBySlugAsync(idOrSlug);
+
             if(movie is null)
             {
                 return NotFound();
@@ -40,7 +44,7 @@ namespace IMDB.Api.Controllers
         {
             var movie = request.MapToMovie();
             await movieRepository.CreateAsync(movie);
-            return CreatedAtAction(nameof(Get), new { id = movie.Id }, movie);            
+            return CreatedAtAction(nameof(Get), new { idOrSlug = movie.Id }, movie);            
         }
 
         [HttpPut(ApiEndpoints.Movies.Update)]
