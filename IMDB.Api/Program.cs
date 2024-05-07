@@ -1,4 +1,5 @@
 using IMDB.Application;
+using IMDB.Application.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,5 +29,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
+await dbInitializer.InitializeAsync();
 
 app.Run();
