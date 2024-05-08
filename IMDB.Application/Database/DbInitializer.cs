@@ -13,6 +13,8 @@ namespace IMDB.Application.Database
         public async Task InitializeAsync()
         {
             using var connection = await dbConnectionFactory.CreateConnectionAsync();
+
+            //Movies table
             await connection.ExecuteAsync("""
                 CREATE TABLE IF NOT EXISTS movies(
                     id UUID primary key,
@@ -22,10 +24,19 @@ namespace IMDB.Application.Database
                 );
                 """);
 
+            //Index for slug on the table movies
             await connection.ExecuteAsync("""
                 CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS movies_slug_idx
                 ON movies
-                USING BTREE(slug);                
+                USING BTREE(slug);
+                """);
+
+            //Genres table
+            await connection.ExecuteAsync("""
+                CREATE TABLE IF NOT EXISTS genres(
+                    movieId UUID references movies(Id),
+                    name TEXT not null
+                );
                 """);
         }
     }

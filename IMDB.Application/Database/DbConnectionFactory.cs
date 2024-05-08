@@ -5,7 +5,7 @@ namespace IMDB.Application.Database
 {
     public interface IDbConnectionFactory
     {
-        Task<IDbConnection> CreateConnectionAsync ();
+        Task<IDbConnection> CreateConnectionAsync();
     }
     public class NpgsqlConnectionFactory : IDbConnectionFactory
     {
