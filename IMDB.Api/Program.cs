@@ -10,10 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+#region Services registration
 var config = builder.Configuration;
-
 builder.Services.AddApplication();
 builder.Services.AddDatabase(config["Database:ConnectionString"]!);
+#endregion
 
 var app = builder.Build();
 
@@ -30,7 +31,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+#region DB Initialization 
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
 await dbInitializer.InitializeAsync();
+#endregion
 
 app.Run();
