@@ -1,4 +1,6 @@
-﻿using IMDB.Application.Database;
+﻿using FluentValidation;
+using IMDB.Application.Database;
+using IMDB.Application.Models;
 using IMDB.Application.Repositories;
 using IMDB.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +13,8 @@ namespace IMDB.Application
         {
             services.AddSingleton<IMovieRepository, MovieRepository>();
             services.AddSingleton<IMovieService, MovieService>();
+            services.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Singleton);
+
             return services;
         }
 
