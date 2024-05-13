@@ -1,3 +1,4 @@
+using IMDB.Api.Mapping;
 using IMDB.Application;
 using IMDB.Application.Database;
 
@@ -12,6 +13,7 @@ builder.Services.AddSwaggerGen();
 
 #region Services registration
 var config = builder.Configuration;
+
 builder.Services.AddApplication();
 builder.Services.AddDatabase(config["Database:ConnectionString"]!);
 #endregion
@@ -28,6 +30,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ValidationMappingMiddleware>();
 
 app.MapControllers();
 

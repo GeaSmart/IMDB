@@ -11,16 +11,13 @@ namespace IMDB.Application.Validators
         public MovieValidator(IMovieRepository movieRepository)
         {
             this.movieRepository = movieRepository;
-        }
-        public MovieValidator()
-        {
             RuleFor(x => x.Id)
                 .NotEmpty();
 
-            RuleFor(x=>x.Genres)
+            RuleFor(x => x.Genres)
                 .NotEmpty();
-            
-            RuleFor(x=>x.Title)
+
+            RuleFor(x => x.Title)
                 .NotEmpty();
 
             RuleFor(x => x.YearOfRelease)
@@ -30,7 +27,6 @@ namespace IMDB.Application.Validators
                 .MustAsync(ValidateSlug)
                 .WithMessage("The system already contains this movie.");
         }
-
         private async Task<bool> ValidateSlug(Movie movie, string slug, CancellationToken token)
         {
             var existingMovie = await movieRepository.GetBySlugAsync(slug);
