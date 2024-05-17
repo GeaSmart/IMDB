@@ -3,24 +3,20 @@ using IMDB.Application;
 using IMDB.Application.Database;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
+var config = builder.Configuration;
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 #region Services registration
-var config = builder.Configuration;
-
 builder.Services.AddApplication();
 builder.Services.AddDatabase(config["Database:ConnectionString"]!);
+
 #endregion
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -28,11 +24,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.UseMiddleware<ValidationMappingMiddleware>();
-
 app.MapControllers();
 
 #region DB Initialization 

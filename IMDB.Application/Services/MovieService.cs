@@ -7,10 +7,10 @@ namespace IMDB.Application.Services
 {
     public class MovieService : IMovieService
     {
-        private readonly MovieRepository movieRepository;
+        private readonly IMovieRepository movieRepository;
         private readonly IValidator<Movie> movieValidator;
 
-        public MovieService(MovieRepository movieRepository, IValidator<Movie> movieValidator)
+        public MovieService(IMovieRepository movieRepository, IValidator<Movie> movieValidator)
         {
             this.movieRepository = movieRepository;
             this.movieValidator = movieValidator;
