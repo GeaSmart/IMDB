@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using IMDB.Application.Models;
 using IMDB.Application.Repositories;
-using IMDB.Application.Validators;
 
 namespace IMDB.Application.Services
 {
@@ -16,30 +15,30 @@ namespace IMDB.Application.Services
             this.movieValidator = movieValidator;
         }
 
-        public async Task<IEnumerable<Movie>> GetAllAsync()
+        public async Task<IEnumerable<Movie>> GetAllAsync(CancellationToken token = default)
         {
-            return await movieRepository.GetAllAsync();
+            return await movieRepository.GetAllAsync(token);
         }
 
-        public async Task<Movie?> GetByIdAsync(Guid id)
+        public async Task<Movie?> GetByIdAsync(Guid id, CancellationToken token = default)
         {
-            return await movieRepository.GetByIdAsync(id);
+            return await movieRepository.GetByIdAsync(id, token);
         }
 
-        public async Task<Movie?> GetBySlugAsync(string slug)
+        public async Task<Movie?> GetBySlugAsync(string slug, CancellationToken token = default)
         {
-            return await movieRepository.GetBySlugAsync(slug);
+            return await movieRepository.GetBySlugAsync(slug, token);
         }
 
-        public async Task<bool> CreateAsync(Movie movie)
+        public async Task<bool> CreateAsync(Movie movie, CancellationToken token = default)
         {
-            await movieValidator.ValidateAndThrowAsync(movie);
-            return await movieRepository.CreateAsync(movie);
+            await movieValidator.ValidateAndThrowAsync(movie, cancellationToken: token);
+            return await movieRepository.CreateAsync(movie, token);
         }
 
-        public async Task<Movie?> UpdateAsync(Movie movie)
+        public async Task<Movie?> UpdateAsync(Movie movie, CancellationToken token = default)
         {
-            await movieValidator.ValidateAndThrowAsync(movie);
+            await movieValidator.ValidateAndThrowAsync(movie, cancellationToken: token);
             var movieExists = await movieRepository.ExistsByIdAsync(movie.Id);
             if (!movieExists)            
                 return null;
@@ -48,9 +47,9 @@ namespace IMDB.Application.Services
             return movie;
         }
 
-        public async Task<bool> DeleteByIdAsync(Guid id)
+        public async Task<bool> DeleteByIdAsync(Guid id, CancellationToken token = default)
         {
-            return await movieRepository.DeleteByIdAsync(id);
+            return await movieRepository.DeleteByIdAsync(id, token);
         }
     }
 }

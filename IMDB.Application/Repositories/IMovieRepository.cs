@@ -4,12 +4,12 @@ namespace IMDB.Application.Repositories
 {
     public interface IMovieRepository
     {
-        Task<IEnumerable<Movie>> GetAllAsync();
-        Task<Movie?> GetByIdAsync(Guid id);
-        Task<Movie?> GetBySlugAsync(string slug);
-        Task<bool> CreateAsync(Movie movie);        
-        Task<bool> UpdateAsync(Movie movie);
-        Task<bool> DeleteByIdAsync(Guid id);
-        Task<bool> ExistsByIdAsync(Guid id);
+        Task<IEnumerable<Movie>> GetAllAsync(CancellationToken token = default);
+        Task<Movie?> GetByIdAsync(Guid id, CancellationToken token = default);
+        Task<Movie?> GetBySlugAsync(string slug, CancellationToken token = default);
+        Task<bool> CreateAsync(Movie movie, CancellationToken token = default);        
+        Task<bool> UpdateAsync(Movie movie, CancellationToken token = default);
+        Task<bool> DeleteByIdAsync(Guid id, CancellationToken token = default);
+        Task<bool> ExistsByIdAsync(Guid id, CancellationToken token = default);
     }
 }
